@@ -4,6 +4,7 @@
   "description": "",
   "main": "section-1.js",
   "scripts": {
+    "lint": "tslint --project tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "lite-server"
   },

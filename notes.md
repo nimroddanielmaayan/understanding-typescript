@@ -41,12 +41,17 @@ tsc app.ts
   - `Array` If possible, `TS` will try to infer the type of variables in the
     array. If not, the type can be declared explicitly using `[]` or
     `Array<type>`
-  - `Tuple`: Theses don't exist in regular `JS`. They are fixed-length arrays
-    with a fixed type for each element. Since they can't be inferred, they must
-    be declared explicitly. For example: `[number, string]`. A `Tuple` will
-    become a regular array in the compiled `JS`
-  - `Enum` (complete later)
-  - `any` (complete later)
+  - `Tuple`: Don't exist in regular `JS`. They are fixed-length arrays with a
+    fixed type for each element. Since they can't be inferred, they must be
+    declared explicitly. For example: `[number, string]`. A `Tuple` will become
+    a regular array in the compiled `JS`
+  - `Enum`: Exist in other languages, but not in `JS`. They are a way of giving
+    more friendly names to sets of numbered values. Similar to the concept of
+    `arrays`, but with reverse roles (the key is the value and the value is the
+    key). Enum keys are usually in uppercase, but that's not mandatory. The
+    numbers can optionally be assigned custom values
+  - `any`: The default, unspecified type. Should only be used when necessary
+  - `union`:
   - `unknown` (complete later)
   - `never` (complete later)
   - `void` (complete later)

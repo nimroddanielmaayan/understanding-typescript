@@ -24,3 +24,7 @@ const person3: {
 };
 
 console.log(person3.hobbies[0]);
+
+// TS union types
+
+// const person4

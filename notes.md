@@ -6,13 +6,18 @@
 
 - This project is based on the Udemy course `Understanding Typescript`
 
-- `Typescript` is never executed directly. Only `Javascript` is executed, so
-  `Typescript` must be compiled to `Javascript` to be executed
+- `TS` is never executed directly. Only `JS` is executed, so `TS` must be
+  compiled to `JS` to be executed
 
-- `Typescript` doesn't have any effect in the runtime - only in development
+- `TS` doesn't have any effect in the runtime - only in development
 
-- The console command to compile `Typescript` to `Javascript` is `tsc`. For
-  example:
+- `TS` knows more types than `JS` and can catch more errors
+
+- `Inferrence` VS `declaration`: `TS` can infer the type of a variable from its
+  value, or it can be declared explicitly. Usually, there's no need to declare
+  the type of a variable explicitly
+
+- The console command to compile `TS` to `JS` is `tsc`. For example:
 
 ```bash
 tsc app.ts
@@ -23,16 +28,23 @@ tsc app.ts
 
 ### Section 2 - Basics
 
-- `Typescript` has core types and also custom (user-defined) types
+- `TS` has core types and also custom (user-defined) types
 
 - Core types include:
 
-  - `number` (includes all number types)
-  - `string` (includes backticks\template literals)
-  - `boolean` (NOT including `truthy` and `falsy`)
-  - `object` (complete later)
-  - `Array` (complete later)
-  - `Tuple` (complete later)
+  - `number`: Includes all number types
+  - `string`: Includes template literals (backticks)
+  - `boolean`: NOT including `truthy` and `falsy`
+  - `object`: Object types are key-type pairs, as opposed to objects which are
+    key-value pairs. Object types can be defined by inferrence or explicitly
+    using {}. Explicitly defining object types is not common
+  - `Array` If possible, `TS` will try to infer the type of variables in the
+    array. If not, the type can be declared explicitly using `[]` or
+    `Array<type>`
+  - `Tuple`: Theses don't exist in regular `JS`. They are fixed-length arrays
+    with a fixed type for each element. Since they can't be inferred, they must
+    be declared explicitly. For example: `[number, string]`. A `Tuple` will
+    become a regular array in the compiled `JS`
   - `Enum` (complete later)
   - `any` (complete later)
   - `unknown` (complete later)

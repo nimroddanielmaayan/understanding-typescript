@@ -30,30 +30,76 @@ tsc app.ts
 
 - `TS` has core types and also custom (user-defined) types
 
-- Core types include:
+- `TS` Types include:
 
-  - `number`: Includes all number types
-  - `string`: Includes template literals (backticks)
+  - `string`: Also includes template literals (backticks)
+
+  - `number`: Includes all number types (int, float, etc.)
+
   - `boolean`: NOT including `truthy` and `falsy`
+
   - `object`: Object types are key-type pairs, as opposed to objects which are
     key-value pairs. Object types can be defined by inferrence or explicitly
     using {}. Explicitly defining object types is not common
+
   - `Array` If possible, `TS` will try to infer the type of variables in the
     array. If not, the type can be declared explicitly using `[]` or
     `Array<type>`
+
   - `Tuple`: Don't exist in regular `JS`. They are fixed-length arrays with a
     fixed type for each element. Since they can't be inferred, they must be
     declared explicitly. For example: `[number, string]`. A `Tuple` will become
     a regular array in the compiled `JS`
+
   - `Enum`: Exist in other languages, but not in `JS`. They are a way of giving
     more friendly names to sets of numbered values. Similar to the concept of
     `arrays`, but with reverse roles (the key is the value and the value is the
     key). Enum keys are usually in uppercase, but that's not mandatory. The
     numbers can optionally be assigned custom values
-  - `any`: The default, unspecified type. Should only be used when necessary
-  - `union`:
-  - `unknown` (complete later)
-  - `never` (complete later)
-  - `void` (complete later)
 
--
+  - `any`: The default, unspecified type. Should only be used when necessary
+
+  - `union`: A union is a type that can be one of several types. For example:
+    `number | string`
+
+  - `literal`: A value can also be a type. For example 0 or 'hello' can be
+    types, that may only have those values. Is often combined with `union` to
+    enforce a closed set of allowed options, for example: `0 | 1 | 2`
+
+  - `function return types` and `void`: `TS` can infer the return type of a
+    function, but it can also be declared explicitly, if there's a good reason
+    to do that. `void` is the return type of a function that doesn't return
+    anything. `void` doesn't exist in `JS`, it's parallel in `JS` is `undefined`
+
+  - `undefined`: The type of a variable that can only be `undefined`. It's
+    rarely used
+
+  - `function`: Functions can be stored in variables (actually, a pointer is
+    stored since functions in `JS` are objects). So, a variable can be of type
+    `function` if it's meant to store a function
+
+  - `function type`: A type that describes a function, including it's parameter
+    types and return type. For callback functions, the return type is usually a
+    `void`, because callback functions usually don't return anything
+
+  - `unknown`: Similar to `any`, but a bit more restrictive. It's a type that
+    can be anything, but it can't have a known inferred `TS` type (because then
+    it would be known, or at least intended to be known). It's rarely used
+
+  - `never`: A type that denotes a function that can never return anything (like
+    a utility function that only generates a custom error and then exits). It's
+    rarely used
+
+  - `custom` (or `alias`) : It's possible to create custom types using the
+    `type` keyword. A `custom` type's name should start with a capital letter,
+    and it shouldn't be a reserverd word (like "Number"). A common use for
+    `custom` is to name a `union` type, or a complex `object` type. This can
+    help a lot in making the code more readable. It's similar to the concept of
+    `data modeling` in backend development
+
+### Section 3 - The TS Compiler
+
+- The console command `tsc filename.ts --watch` will compile the `TS` file to
+  `JS`, watch for changes in the `TS` file, and recompile it when necessary
+
+- Compiling the entire project: ...

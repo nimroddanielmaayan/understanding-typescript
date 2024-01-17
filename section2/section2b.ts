@@ -7,6 +7,7 @@ const person1 = {
 
 console.log(person1.name);
 
+// Assigning a number to an array of strings
 const person2: string[] = ['Todd', 27];
 
 for (const info of person2) {
@@ -27,4 +28,11 @@ console.log(person3.hobbies[0]);
 
 // TS union types
 
-// const person4
+// A function that combines 2 variables that can be number or string
+
+function combine(input1: number | string, input2: number | string) {
+  const result = input1 + input2;
+  console.log(result);
+}
+
+combine(1, 2);

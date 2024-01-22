@@ -7,8 +7,8 @@ function add(n1: number, n2: number, showResult: boolean, phrase: string) {
 
 let number1: number;
 number1 = '5';
-number1 = '6';
-number1 = 7;
+number1 = 6;
+number1 = '7';
 const number2 = '2.8';
 const printResult = true;
 const resultPhrase = 'Result is: ';

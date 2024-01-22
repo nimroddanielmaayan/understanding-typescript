@@ -99,7 +99,37 @@ tsc app.ts
 
 ### Section 3 - The TS Compiler
 
-- The console command `tsc filename.ts --watch` will compile the `TS` file to
-  `JS`, watch for changes in the `TS` file, and recompile it when necessary
+- The console command:
 
-- Compiling the entire project: ...
+```bash
+ tsc filename.ts --watch
+```
+
+will compile the `TS` file to `JS`, watch for changes in the `TS` file, and
+recompile it when necessary
+
+- Compiling the entire project: To initiate a new `TS` project, run:
+
+```bash
+tsc --init
+```
+
+This will create a `tsconfig.json` file, which is the configuration file for the
+`TS` compiler. It can be used to specify the files to be compiled, the output
+directory, the target `JS` version, etc. The `tsconfig.json` file can be used to
+compile the entire project, instead of compiling each file individually. To do
+that and also watch for changes, run:
+
+```bash
+tsc --watch
+```
+
+- It makes sense to add `"exclude": ["node_modules"]` to the `tsconfig.json`
+  file, so that the `TS` compiler doesn't waste time trying to compile the
+  `node_modules` folder. Not doing so might cause the compiler to crash. It's
+  actually excluded by default if there's no `exclude` property in the
+  `tsconfig.json` file, but it's better to be explicit
+
+- Same principle concerning the `include` property. If there's no `include`
+  property, the compiler will compile all files in the project. If there is an
+  `include` property, only the files specified in it will be compiled

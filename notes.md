@@ -100,7 +100,7 @@ tsc app.ts
     and it shouldn't be a reserverd word (like "Number"). A common use for
     `custom` is to name a `union` type, or a complex `object` type. This can
     help a lot in making the code more readable. It's similar to the concept of
-    `data modeling` in backend development
+    `data modeling` in backend development, but for `types`
 
 ### Section 3 - The TS Compiler
 
@@ -190,6 +190,37 @@ tsc --watch
 
 - Type annotations in `TS classes` might be confusing, because they make the
   class look like an object.
+
+- `interface` is a `TS` feature that doesn't exist in `JS`. It's a way of
+  defining a `custom type`. It's similar to the concept of `data modeling` in
+  backend development, but for `classes`
+
+- An `interface` dosen't store any data or methods. It only defines the
+  structure of an object. It can be used as the type of a variable, or as the
+  type of a class
+
+- Why use an `interface` and not a `custom type`? An `interface` is specifically
+  built for `classess` in `OOP`. For example, the types defined in an
+  `interface` are inherited by the `instances` of the `class`
+
+- To use an `interface` in a `class`, the syntax is:
+  `class ClassName implements InterfaceName`
+
+- I skipped over most of the `class` refresher and most of the `interface` part,
+  because I'm not sure if and when I'll work with `OOP`. If needed, go back to
+  this in the future
+
+### Section 6 - Advanced Types
+
+- `inersection types`: A combination of two types. For example:
+  `type SiteAdmin = User & Admin`
+
+- `type guards`: This simply referrs to checking the type of a variable before
+  using it. `type guards` can be implemented using `typeof`, `in` or
+  `instanceof` (which are all `JS` features).
+
+- `type guards` are based on `JS`, not on `TS` - because they have to work at
+  runtime. And like we said before, `TS` disappears when compiling
 
 ### Section 11 - TS and Webpack
 

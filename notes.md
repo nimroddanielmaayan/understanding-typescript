@@ -6,6 +6,8 @@
 
 - This project is based on the Udemy course `Understanding Typescript`
 
+- At it's core, `TS` is all about setting patterns and predicting outcomes
+
 - `TS` is never executed directly. Only `JS` is executed, so `TS` must be
   compiled to `JS` to be executed
 
@@ -221,6 +223,112 @@ tsc --watch
 
 - `type guards` are based on `JS`, not on `TS` - because they have to work at
   runtime. And like we said before, `TS` disappears when compiling
+
+- `discriminated unions`: A way of using `union types` in a way that makes it
+  easier to check the type of a variable using `type guards`. In other words,
+  enabling discrimination before uniting `types` or `interfaces`. For example:
+  Assigning a `union type` named "kind" to each `type` or `interface`, and then
+  looping over this "kind" to decide what to do in each case
+
+- `type casting`: A way of explicitly telling `TS` that a variable is of a
+  certain type, even if `TS` can't infer it. This is needed in cases when `TS`
+  can't infer the type of a variable by itself, but the developer does know the
+  type
+
+- There are 2 optional syntax options for `type casting` (it's recommended to
+  choose one and stick to it in one project):
+
+  - `Angle-bracket` syntax: `<type>variableName` (can't be used in `React`,
+    because angle brackets in `React` are used for `components`)
+  - `As` syntax: `variableName as type`
+
+- `type casting` is not always needed - sometimes `TS` can infer the type of a
+  variable by itself
+
+- It's possible to use `type casting` not only when defining a variable, but
+  also when using it. For example: `(variableName as type).methodName()`
+
+- `index properties`: A way of defining a flexible `custom type` that can have
+  any number of properties with any names, as long as they are of a certain
+  type. For example: `interface NumbersContainer = { [prop: string]: number }`.
+  This example means: An interface named "NumbersContainer" that can have any
+  amount of properties with any name, as long as the property name is of type
+  string and the property value is of type number. Just be careful not to
+  confuse `prop` with `React props`
+
+- It's possible to also add specific types to specific properties inside an
+  `index property`, as long as there's no conflict between them
+
+- `function overloads`: A way of defining multiple function type combination
+  possibilitues, for the same function. The syntax is simply writing the same
+  function name with only types, before the "real: function. For example:
+
+```ts
+// Function overload
+function add(a: number, b: number): number;
+
+// Function overload
+function add(a: string, b: string): string;
+
+// "Real" function
+function add(a: number | string, b: number | string) {
+  return a + b;
+}
+```
+
+- `TS` sometimes displays types with `(+X overloads)` at the end. This means
+  that there are X function overloads for this function
+
+- `optional chaining`: A way of properties exists before using them. The syntax
+  is: `variable?.property1?.property2`. Note, that this is not valid `JS`
+  syntax, but behind the scenes it's compiled to an `if` statement.
+  `optional chaining` is useful when working with `backend APIs`, because the
+  data might not always be available at runtime
+
+- `nullish coalescing`: A way of checking if a variable is `null` or `undefined`
+  before using it. It works similarly to `optional chaining`, and it's also
+  useful when working with `backend APIs`. The syntax is:
+  `variable ?? defaultValue`. This is actually valid `JS` syntax, but at some
+  point in the past it existed only in `TS`
+
+### Section 7 - Generics
+
+- `Generics` are a way of creating `custom types` that are generally a "type of
+  types". For example: An array of strings
+
+- The syntax for `generics` is: `Array<type>`. For example: `Array<string>`
+  (which is exactly the same as `string[]`)
+
+- Just like with `type casting`, `generics` are not always needed - sometimes
+  `TS` can infer the generic type of a variable by itself
+
+- `generic functions`: A way of creating `functions` that can work with any
+  `type`. For example: A function that receives an array of any type, and
+  returns the first element of that array. The syntax is:
+  `function functionName<T>(parameterName: T[]): T`. The letter "T" in this case
+  is short for "type". If there are several types, we can continue along the
+  alphabet (to "U", "V", etc.). For example:
+
+```ts
+function getFirstElement<T>(arr: T[]): T {
+  return arr[0];
+}
+```
+
+- Why should we use `generic functions` and not just regular types inside the
+  functions? Because then, `TS` will know more about the expected returned
+  value. For example, a `generic function` that combines "object T" and "object
+  U" , will return "object T & U". A regular function that combines two objects
+  will just return an object
+
+- `generic constraints`: What if "T" or "U" need to be of a certain type? In
+  this case, we can use `generic constraints`. For example:
+
+```ts
+function combine<T extends object, U extends object>(obj1: T, obj2: U) {
+  return { ...obj1, ...obj2 };
+}
+```
 
 ### Section 11 - TS and Webpack
 

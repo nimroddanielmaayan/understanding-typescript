@@ -19,6 +19,12 @@
   value, or it can be declared explicitly. Usually, there's no need to declare
   the type of a variable explicitly
 
+- It's important to remember that `TS` might sometimes force us to do a lot of
+  "type gymnastics" and to invest a lot of workin order to define the desired
+  types correctly. When this happens, it's important to remember that `TS` is
+  always optional and that we should decide how much of it is really needed and
+  where
+
 - The console command to compile `TS` to `JS` is `tsc`. For example:
 
 ```bash
@@ -293,21 +299,24 @@ function add(a: number | string, b: number | string) {
 
 ### Section 7 - Generics
 
-- `Generics` are a way of creating `custom types` that are generally a "type of
+- `generics` are a way of creating `custom types` that are generally a "type of
   types". For example: An array of strings
 
-- The syntax for `generics` is: `Array<type>`. For example: `Array<string>`
-  (which is exactly the same as `string[]`)
+- `generics` exist in order to make our lives easier - to give us the ability to
+  create `custom types` which are both descriptive and flexible
+
+- The possible syntax for `generics` is: `Array<type>`. For example:
+  `Array<string>` (which is exactly the same as `string[]`)
 
 - Just like with `type casting`, `generics` are not always needed - sometimes
   `TS` can infer the generic type of a variable by itself
 
-- `generic functions`: A way of creating `functions` that can work with any
-  `type`. For example: A function that receives an array of any type, and
-  returns the first element of that array. The syntax is:
-  `function functionName<T>(parameterName: T[]): T`. The letter "T" in this case
-  is short for "type". If there are several types, we can continue along the
-  alphabet (to "U", "V", etc.). For example:
+- `generic functions` and `type variables`: A way of creating `functions` that
+  can work with any `type`. For example: A function that receives an array of
+  any type, and returns the first element of that array. The syntax is:
+  `function functionName<T>(parameterName: T[]): T`. The letter `T` in this case
+  is short for `type variable`. If there are several `type variables`, we can
+  continue along the alphabet (to `U`, `V`, etc.). For example:
 
 ```ts
 function getFirstElement<T>(arr: T[]): T {
@@ -315,20 +324,281 @@ function getFirstElement<T>(arr: T[]): T {
 }
 ```
 
+- In the above example, the first `<T>` is the "decleration" of the
+  `type variable` of the function. The 2 other `T`s are then instances of that
+  same `type variable` (one for the parameter and one for the return value)
+
 - Why should we use `generic functions` and not just regular types inside the
   functions? Because then, `TS` will know more about the expected returned
-  value. For example, a `generic function` that combines "object T" and "object
-  U" , will return "object T & U". A regular function that combines two objects
-  will just return an object
+  value. For example, a `generic function` that combines `object T` and
+  `object U` , will return `object T & U`. A regular function that combines two
+  objects will just return an object. In other words, `generics` provide
+  consistency, like we said before. This can be especially important when
+  working with complex functions or complex classes, for example
 
-- `generic constraints`: What if "T" or "U" need to be of a certain type? In
-  this case, we can use `generic constraints`. For example:
+- `generic constraints`: What if `T` or `U` need to be of a certain type? In
+  this case, we can use `generic constraints`, which implement the `extends`
+  keyword to make the `type variable` even more specific. For example:
 
 ```ts
 function combine<T extends object, U extends object>(obj1: T, obj2: U) {
   return { ...obj1, ...obj2 };
 }
 ```
+
+- The `keyof` keyword: A way of getting the keys of an object as a `union type`.
+  For example: `keyof objectName`. This is useful when working with `generics`,
+  because it can be used to make sure that a `type variable` is a key of an
+  object. In the following example, `TS` will understand that `T` is an object
+  and that `U` is the key of that object:
+
+```ts
+function extractAndConvert<T extends object, U extends keyof T>(
+  obj: T,
+  key: U
+) {
+  return obj[key];
+}
+```
+
+- `generic classes`: A way of creating `classes` that can work with any `type`,
+  but in which this `type` is uniform and consistent. For example: A class that
+  receives an array of any type, and returns the first element of that array.
+  The syntax is: `class ClassName<T>`. For example:
+
+```ts
+class DataStorage<T> {
+  private data: T[] = [];
+
+  addItem(item: T) {
+    this.data.push(item);
+  }
+
+  removeItem(item: T) {
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+
+  getItems() {
+    return [...this.data];
+  }
+}
+```
+
+- Note, that when instantiating a `generic class`, the `type variable`'s
+  specific `type` must be specified (unless it can be inferred). For example:
+  `const nameStorage = new DataStorage<string>()` or possibly
+  `const numberStorage = new DataStorage<number>()`. This is called "setting the
+  generic type"
+
+- `generic utility types`: `TS` has some built-in `generic types` that can be
+  used in `generics`. For example:
+  - `Partial<T>`: A `generic type` that makes all properties of a variable
+    optional and not required
+  - `Readonly<T>`: A `generic type` that makes all properties of a variable
+    readonly
+  - `Record<K, T>`: A `generic type` that creates an object with keys of type
+    "K" and values of type `T`
+  - And many more
+
+### Section 8 - Decorators
+
+- `decorators` are a `TS` feature that doesn't exist in `JS`. They are a way of
+  adding extra functionality to `classes`, `methods` and `properties`. They are
+  similar to `decorators` in `Python` and `annotations` in `Java`
+
+- `decorators` are a kind of "meta programming" tool - they are a way of
+  modifying the general behavior of a `class`, `method` or `property` without
+  changing the final code of that `class`, `method` or `property`
+
+- You could say that when we're writing `decorators`, we're "developing for
+  developers" and not "developing for users", because `decorators` are not meant
+  to directly affect the end user's experience
+
+- `decorators` are generally associated with `classes` and with `OOP`, but they
+  can also be used with `functional programming` and with `React components`
+
+- To use `decorators`, the `experimentalDecorators` option must be set to `true`
+  in the `tsconfig.json` file (or something similar, if using a different
+  compilation tool)
+
+- `decorators` are simply functions that, like we said, "decorate" something
+  with extra functionality. Their name should start with a capital letter, and
+  they are associated with something using the `@` symbol. For example:
+
+```ts
+// Define a decorator, which recieves a constructor function
+function JustLog(constructor: Function) {
+  console.log('Logging...');
+}
+
+// Associate the decorator with a class
+@JustLog
+class Person {
+  name = 'Someone';
+
+  constructor() {
+    console.log('Creating person object...');
+  }
+}
+```
+
+- It's important to know that a decorator is run when a class it's associated
+  with is defined, not when it's instantiated
+
+- `decorator factories`: A way of creating `decorators` that can receive
+  arguments and be configured. The syntax is:
+  `function decoratorName(args) { return function decoratorName(target) { ... } }`.
+  For example:
+
+```ts
+// Define a decorator factory, which recieves a string
+function JustLog(logText: string) {
+  // Return a decorator, which recieves a constructor function
+  return function (constructor: Function) {
+    console.log(logText);
+  };
+}
+
+// Associate the decorator with a class
+@JustLog('Logging...')
+class Person {
+  name = 'Someone';
+
+  constructor() {
+    console.log('Creating person object...');
+  }
+}
+```
+
+- Note, that `@JustLog('Logging...')` is a function execution, written in a
+  unique syntax that's used by `decorators`
+
+- A note about using an underscore (`_`) as a parameter name in a decorator or
+  decorator factory: It's a convention to do that, when the parameter is not
+  actually used. This is because a parameter may sometimes be required by `TS`,
+  even if it's not used
+
+- It's interesting to note that the `Angular` and `Nest.js` frameworks use
+  `decorators` extensively. They are both based on `TS`
+
+- Multiple `decorators` can be associated with the same `class`, `method` or
+  `property`. In this case, they are executed (called) from bottom to top in the
+  code, but defined (initially created) from top to bottom in the code
+
+- `property decorators`: A way of adding extra functionality to a `property`.
+  They are similar to `decorators`, but they are associated with a `property`
+  instead of a `class`. The syntax is:
+  `function decoratorName(target: any, propertyName: string | Symbol) { ... }`.
+  For example:
+
+```ts
+// Define a decorator, which recieves a constructor function
+function Log(target: any, propertyName: string | Symbol) {
+  console.log('Property decorator...');
+  console.log(target, propertyName);
+}
+
+// Associate the decorator with a class
+class Product {
+  @Log
+  title: string;
+}
+```
+
+- `accessor decorators`: A way of adding extra functionality to a `getter` or a
+  `setter`. They are similar to `decorators`, but they are associated with a
+  `getter` or a `setter` instead of a `class`. The syntax is:
+  `function decoratorName(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) { ... }`.
+  For example:
+
+```ts
+// Define a decorator, which recieves a constructor function
+function Log(target: any, propertyName: string | Symbol) {
+  console.log('Accessor decorator...');
+  console.log(target, propertyName);
+}
+
+// Associate the decorator with a class
+class Product {
+  private _price: number;
+
+  @Log
+  set price(val: number) {
+    if (val > 0) {
+      this._price = val;
+    } else {
+      throw new Error('Invalid price - should be positive!');
+    }
+  }
+
+  get price() {
+    return this._price;
+  }
+}
+```
+
+- `parameter decorators`: A way of adding extra functionality to a `parameter`.
+  They are similar to `decorators`, but they are associated with a `parameter`
+  instead of a `class`. The syntax is:
+  `function decoratorName(target: any, methodName: string | Symbol, position: number) { ... }`.
+  For example:
+
+```ts
+// Define a decorator, which recieves a constructor function
+function Log(target: any, methodName: string | Symbol, position: number) {
+  console.log('Parameter decorator...');
+  console.log(target, methodName, position);
+}
+
+// Associate the decorator with a class
+class Product {
+  private _price: number;
+
+  setPrice(@Log price: number) {
+    if (price > 0) {
+      this._price = price;
+    } else {
+      throw new Error('Invalid price - should be positive!');
+    }
+  }
+}
+```
+
+- `decorators` are also able to return values, and then these values can be used
+  in the code. For example, a `decorator` can even replace the original `class`
+  with a new one
+
+- Validation with `decorators`: A way of using `decorators` to validate
+  `classes`, `methods` or `properties`. For example:
+
+```ts
+// Define a decorator factory, which recieves a string
+function Required() {
+  // Return a decorator, which recieves a constructor function
+  return function (target: any, propertyName: string | Symbol) {
+    // Get the value of the property
+    const value = target[propertyName];
+
+    // Check if the value is valid
+    const isValid = value != null && value.toString().trim().length > 0;
+
+    // Throw an error if the value is not valid
+    if (!isValid) {
+      throw new Error(`"${propertyName}" is required!`);
+    }
+  };
+}
+
+// Associate the decorator with a class
+class Product {
+  @Required()
+  title: string;
+}
+```
+
+- The NPM package `class-validator` for `TS` can be used to validate `classes`,
+  `methods` or `properties` using `decorators`. It's a very popular package.
+  It's a very good tool for doing `OOP` with `TS`
 
 ### Section 11 - TS and Webpack
 

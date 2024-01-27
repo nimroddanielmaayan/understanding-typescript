@@ -777,4 +777,5 @@ const inputRef = useRef<HTMLInputElement>(null);
 - `TS` can be used with `Node` and `Express`, but it's not as common as using it
   with `React` and other front-end frameworks
 
--
+- I skipped over this part for now, because `Node` and `Express` aren't used
+  with `TS` that much. Complete it in the future if needed

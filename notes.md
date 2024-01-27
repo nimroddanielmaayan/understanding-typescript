@@ -697,4 +697,84 @@ declare const GLOBAL: string;
 
 ### Section 14 - React + TS
 
+- To use `TS` with `React`, the best way is to use `create-react-app` with `TS`
+  or `Vite` with `TS`
+
+- `React`-specific `types` like `React.FC` will give out an error message if the
+  component is used incorrectly. For example - if the return statement is
+  missing
+
+- `React props` and `TS`: It's not enough to tell `TS` that `React.FC` is a
+  functional component, we also need to define its `props` types. To do that, we
+  can use the fact that `React.FC` is a `generic type` (a "type of types", and
+  in this case - a "function with props"). The preferred way of defining both is
+  creating an interface and adding it to the `React.FC` type. For example:
+
+```ts
+interface AppProps {
+  title: string;
+}
+
+const App: React.FC<AppProps> = (props) => {
+  return <h1>{props.title}</h1>;
+};
+```
+
+- In the above example, it's also possible to define a `type` instead of an
+  `interface`
+
+- If no `props` are defined, `TS` will assume that the `<props>` types is just
+  an empty object
+
+- Other important `types` that are often used in `React`:
+
+  - `HTMLInputElement`: A `type` that describes a front-end `input` element
+  - `React.FormEvent`: A `type` that describes a `form` event, like "submit"
+  - `React.ChangeEvent`: A `type` that describes a `change` event, like "input
+    typed"
+  - `React.MouseEvent`: A `type` that describes a `mouse` event, like "click"
+  - A function, that should be defined along with it's parameters and return
+    value
+  - And many more
+
+- `state management` and `types`: It's possible to use `types` to define the
+  `state` of a `React` component. For example:
+
+```ts
+const [AppState, setAppState] = useState<{ title: string }>({ title: 'Hello' });
+```
+
+- Note that in the above example, we use the fact that `useState` is a
+  `generic type` (a "type of types", and in this case - a "function with a
+  default state"). It's possible to define the `type` of this default state
+  on-the-fly like in the above example, or using an `interface` or a `type`
+
+- `React refs` and `types`: It's possible to use `types` to define the `type` of
+  a `React ref`. For example:
+
+```ts
+const inputRef = useRef<HTMLInputElement>(null);
+```
+
+- It's possible to create a file named "something.models.ts", to put all the
+  `types` and `interfaces` there, and just import them wherever they're needed.
+  This is a common practice in `TS`
+
+- `types` for advanced `React`, like `Redux`, `routing` and more: There are too
+  many `React` libraries for a full summary of all of them, but there are a few
+  general guidelines which are good to follow:
+
+  - Try hovering over things in order to see their current `types`
+  - Go over the documentation of the library, and look for `TS` guidelines and
+    examples
+  - Use `AI`
+
+- Notice, that some `React` libraries don't support `TS` out-of-the-box, but
+  they do have `@types` packages that can be installed as dev dependencies
+
+### Section 15 - Node & Express + TS
+
+- `TS` can be used with `Node` and `Express`, but it's not as common as using it
+  with `React` and other front-end frameworks
+
 -

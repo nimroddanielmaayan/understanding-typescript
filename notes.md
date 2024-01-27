@@ -600,6 +600,65 @@ class Product {
   `methods` or `properties` using `decorators`. It's a very popular package.
   It's a very good tool for doing `OOP` with `TS`
 
+### Section 9 - Modules & Namespaces
+
+- `namespaces` in `TS`: An optional way of organizing code into logical groups.
+  They are similar to `namespaces` in `C#` and `namespaces` in `Java`. They are
+  also similar to `modules` in `JS`, but they are not the same thing.
+  `namespaces` are a `TS` feature that doesn't exist in `JS`. Although it's
+  important to kjnow that this method exists, it's generally better to use
+  `ES modules` instead
+
+- `namespaces` are a way of avoiding name collisions. For example, if we have
+  two `classes` with the same name, we can put each one in a different
+  `namespace` and then use the `namespace` name to access the `class` name
+
+- I skipped over the `namespaces` part, maybe complete it later if needed
+
+- `ES modules` in `TS`: The modern and preferred way to organize code. It's
+  completly supported by `TS` and by modern browsers. One important note: `TS`
+  files need to be imported as `JS`, because we need to import the file as if it
+  was aleady compiled to `JS` (or, if our build tool allows is - we can omit the
+  file extension altogether)
+
+- Remember the technique that I learned while working on the "Shenhav" project -
+  creating an "exports warehouse" that imports all the exported files in the
+  entire project, and then exporting them all again from there to wherever they
+  are needed. Note, that this technique won't have any effect on performance,
+  because the code will be optimized at build time
+
+- The `import as * alias` syntax: An optional way of importing all the exported
+  files in a folder into a single object. For example:
+
+```ts
+import * as Bundle from './bundle';
+```
+
+- When importing with an `alias`, we'll need to use the `alias` name to access
+  the imported files, becaust they will be imported as properties of the `alias`
+  object. For example:
+
+```ts
+Bundle.Product;
+Bundle.Order;
+```
+
+- Default exports: A way of exporting a single `class`, `function` or `value`
+  from a file. Each file can only have one default export (althought it's
+  allowed th have a default export and other named exports, in addition). When
+  importing a default export, we can give it any alias that we want. For
+  example:
+
+```ts
+export default class Product {
+  // ...
+}
+```
+
+- `named exports\imports` are generally the best approach, because they prevent
+  using aliases and they enforce a consistent naming convention across the
+  entire project
+
 ### Section 11 - TS and Webpack
 
 - I preferred to skip over this part, because I usually use `Vite` or similar
@@ -608,3 +667,34 @@ class Product {
 - `Vite` actually uses `Webpack` under the hood
 
 - If needed, I can go over this section in the future
+
+### Section 12 - Third Party Libraries & TS
+
+- `TS` can be used with any `JS` library, but some libraries were built with
+  `TS` in mind, and they have `TS` support out of the box
+
+- For libraries that don't offer `TS` support out of the box, like `Lodash`, we
+  need to install the `@types` package for that library, as a dev dependency.
+  These packages contain `.d.ts` files that don't do anythig, but only describe
+  the types of the library so that `TS` can use them. This way, we'll have full
+  type checking, autocompletion and everything else that we need in `TS`. For
+  example:
+
+```bash
+npm install --save-dev @types/lodash
+```
+
+- Alternatively, we can just ignore the `TS` errors and warnings, if there's no
+  good way of integrating `TS` with a certain library
+
+- What if there's no `@types` package for a library? In this case, we can use
+  the `declare` keyword to tell `TS` that a certain variable exists, and that it
+  has a certain type. For example:
+
+```ts
+declare const GLOBAL: string;
+```
+
+### Section 14 - React + TS
+
+-
